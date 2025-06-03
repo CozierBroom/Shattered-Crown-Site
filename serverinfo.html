@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Server Info - The Shattered Crown</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #121821;
+      color: #ddd;
+    }
+    a {
+      color: #d49a2a;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    a:hover {
+      text-decoration: none;
+    }
+    header {
+      background-color: #1f2937;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #d49a2a;
+      flex-wrap: wrap;
+      position: relative;
+    }
+    .logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #d49a2a;
+      letter-spacing: 2px;
+      cursor: pointer;
+      user-select: none;
+    }
+    /* Hamburger toggle button styles */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      width: 30px;
+      height: 22px;
+      cursor: pointer;
+      background-color: #1f2937;
+      border: none;
+      padding: 0;
+      border-radius: 4px;
+    }
+    .nav-toggle:focus {
+      outline: 2px solid #d49a2a;
+      outline-offset: 2px;
+    }
+    .nav-toggle span {
+      height: 3px;
+      width: 100%;
+      background-color: #d49a2a;
+      border-radius: 2px;
+      margin-bottom: 5px;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .nav-toggle span:last-child {
+      margin-bottom: 0;
+    }
+    /* Animate toggle to X when active */
+    .nav-toggle.active span:nth-child(1) {
+      transform: translateY(8.5px) rotate(45deg);
+    }
+    .nav-toggle.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .nav-toggle.active span:nth-child(3) {
+      transform: translateY(-8.5px) rotate(-45deg);
+    }
+
+    nav.nav-menu {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    nav.nav-menu a {
+      position: relative;
+      padding-bottom: 4px;
+      color: #d49a2a;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    nav.nav-menu a:hover,
+    nav.nav-menu a:focus {
+      color: #f4c04d;
+    }
+    nav.nav-menu a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 3px;
+      width: 100%;
+      background: linear-gradient(90deg, #d49a2a, #f4c04d);
+      border-radius: 2px;
+      transform: scaleX(0);
+      transform-origin: bottom right;
+      transition: transform 0.4s ease;
+      pointer-events: none;
+    }
+    nav.nav-menu a:hover::after,
+    nav.nav-menu a:focus::after {
+      transform: scaleX(1);
+      transform-origin: bottom left;
+    }
+    nav.nav-menu a.current-page {
+      color: #f4c04d;
+      font-weight: 700;
+    }
+    nav.nav-menu a.current-page::after {
+      height: 5px;
+      transform: scaleX(1);
+      transform-origin: bottom left;
+      transition: none;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      line-height: 1.6;
+      font-size: 1.1rem;
+    }
+    h1 {
+      font-family: 'Cinzel', serif;
+      color: #d49a2a;
+      font-weight: 700;
+      font-size: 2.8rem;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+    .info-section {
+      background-color: #1f2937;
+      padding: 1.5rem 2rem;
+      border-radius: 6px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.7);
+      margin-bottom: 2rem;
+    }
+    .info-section h2 {
+      color: #d49a2a;
+      font-family: 'Cinzel', serif;
+      margin-bottom: 0.8rem;
+      border-bottom: 1px solid #d49a2a;
+      padding-bottom: 0.3rem;
+    }
+    footer {
+      background-color: #1f2937;
+      padding: 1.5rem 1rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #777;
+      border-top: 2px solid #d49a2a;
+      margin-top: 4rem;
+    }
+    footer a {
+      margin: 0 0.5rem;
+      color: #d49a2a;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsive Mobile Menu */
+    @media (max-width: 768px) {
+      .nav-toggle {
+        display: flex;
+      }
+      nav.nav-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: #1f2937;
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem 2rem;
+        border-radius: 0 0 6px 6px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.7);
+        display: none;
+        z-index: 1000;
+      }
+      nav.nav-menu[aria-expanded="true"] {
+        display: flex;
+      }
+      nav.nav-menu a {
+        margin-left: 0;
+        font-size: 1.1rem;
+        width: 100%;
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo" tabindex="0" onclick="window.location.href='index.html'">The Shattered Crown</div>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="primary-navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav id="primary-navigation" class="nav-menu" aria-expanded="false">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="serverinfo.html" class="current-page">Server Info</a>
+      <a href="forums.html">Forums</a>
+      <a href="store.html">Donate</a>
+      <a href="rules.html">Rules</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Server Info</h1>
+
+    <section class="info-section">
+      <h2>Server Address</h2>
+      <p><strong>IP:</strong> aeon.aushost.gg</p>
+      <p><strong>Port:</strong> 27000</p>
+      <p>Connect using your Minecraft client with the above IP and port.</p>
+    </section>
+
+    <section class="info-section">
+      <h2>Modpack Version</h2>
+      <p>We run a custom modpack, currently at version <strong>v5.3 (Minecraft 1.18.2)</strong>.</p>
+      <p>Make sure to install the correct version to connect without issues.</p>
+    </section>
+
+    <section class="info-section">
+      <h2>Server Rules</h2>
+      <ul>
+        <li>Respect other players and staff.</li>
+        <li>No cheating, hacking, or exploiting bugs.</li>
+        <li>Keep chat friendly and avoid spamming.</li>
+        <li>Build responsibly and avoid griefing.</li>
+        <li>Follow additional rules posted in the Discord and forums.</li>
+      </ul>
+    </section>
+
+    <section class="info-section">
+      <h2>Gameplay Features</h2>
+      <ul>
+        <li>Dark fantasy and tech mods combined for unique gameplay.</li>
+        <li>Custom quests and storylines.</li>
+        <li>Active player community and events.</li>
+        <li>Regular updates and maintenance.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <div>
+      <a href="#">Discord</a> | 
+      <a href="#">Twitter</a> | 
+      <a href="#">YouTube</a>
+    </div>
+    <div>© 2025 The Shattered Crown. All rights reserved.</div>
+  </footer>
+
+  <script>
+    const navToggle = document.querySelector('.nav-toggle');
+    const navMenu = document.querySelector('nav.nav-menu');
+
+    navToggle.addEventListener('click', () => {
+      const expanded = navToggle.getAttribute('aria-expanded') === 'true' || false;
+      navToggle.setAttribute('aria-expanded', !expanded);
+      navMenu.setAttribute('aria-expanded', !expanded);
+      navToggle.classList.toggle('active');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rules - The Shattered Crown</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #121821;
+      color: #ddd;
+    }
+    a {
+      color: #d49a2a;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    header {
+      background-color: #1f2937;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #d49a2a;
+      flex-wrap: wrap;
+    }
+    .logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #d49a2a;
+      letter-spacing: 2px;
+      cursor: pointer;
+    }
+
+    nav {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    nav a {
+      font-weight: 600;
+      font-size: 1rem;
+      position: relative;
+      padding-bottom: 4px;
+      color: #d49a2a;
+      transition: color 0.3s ease;
+      overflow: visible;
+    }
+
+    nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 3px;
+      width: 0%;
+      background: linear-gradient(90deg, #d49a2a, #f4c04d);
+      border-radius: 2px;
+      transition: width 0.4s ease;
+      pointer-events: none;
+    }
+
+    nav a:hover::after,
+    nav a:focus::after {
+      width: 100%;
+    }
+
+    nav a.current-page {
+      color: #f4c04d;
+      font-weight: 700;
+    }
+
+    nav a.current-page::after {
+      width: 100%;
+      height: 5px;
+      transition: none;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 3rem auto;
+      padding: 2rem;
+      background-color: #1b2430;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.4);
+      border: 1px solid #2f3640;
+    }
+
+    h1 {
+      font-family: 'Cinzel', serif;
+      color: #d49a2a;
+      font-weight: 700;
+      font-size: 3rem;
+      text-align: center;
+      margin-bottom: 0.3rem;
+    }
+
+    h2 {
+      font-family: 'Cinzel', serif;
+      color: #d49a2a;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #d49a2a;
+      padding-bottom: 0.25rem;
+    }
+
+    p.last-updated {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #bbb;
+      margin-bottom: 2rem;
+    }
+
+    ol {
+      padding: 0 1rem 1rem 1rem;
+      list-style: none;
+      counter-reset: rule;
+    }
+
+    ol li {
+      background-color: #222d3a;
+      margin-bottom: 1.2rem;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      border-left: 4px solid #d49a2a;
+      color: #f0e6d2;
+      position: relative;
+    }
+
+    ol li::before {
+      counter-increment: rule;
+      content: counter(rule);
+      position: absolute;
+      left: -2.2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #d49a2a;
+      color: #121821;
+      font-weight: bold;
+      width: 2rem;
+      height: 2rem;
+      line-height: 2rem;
+      border-radius: 50%;
+      text-align: center;
+      box-shadow: 0 0 5px #000;
+    }
+
+    footer {
+      background-color: #1f2937;
+      padding: 1.5rem 2rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #777;
+      border-top: 2px solid #d49a2a;
+      margin-top: 4rem;
+    }
+
+    footer a {
+      margin: 0 0.5rem;
+      color: #d49a2a;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Mobile menu toggle */
+    .menu-toggle {
+      display: none;
+      font-size: 1.8rem;
+      background: none;
+      border: none;
+      color: #d49a2a;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+      nav {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        margin-top: 1rem;
+        gap: 1rem;
+        justify-content: flex-start;
+      }
+      nav.active {
+        display: flex;
+      }
+      nav a {
+        font-size: 1.2rem;
+        padding: 0.5rem 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo" onclick="window.location.href='index.html'">The Shattered Crown</div>
+    <button class="menu-toggle" aria-label="Toggle navigation menu" onclick="toggleMenu()">☰</button>
+    <nav role="navigation" aria-label="Main Navigation" id="navMenu">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="serverinfo.html">Server Info</a>
+      <a href="forums.html">Forums</a>
+      <a href="store.html">Donate</a>
+      <a href="rules.html" class="current-page">Rules</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Server Rules</h1>
+    <p class="last-updated">Last updated: June 3, 2025</p>
+
+    <section>
+      <h2>Respect &amp; Community</h2>
+      <ol start="1">
+        <li><strong>Respect all players:</strong> Harassment, discrimination, or hate speech of any kind will not be tolerated.</li>
+        <li><strong>Have fun and be kind:</strong> This is a community – let's keep it welcoming for everyone.</li>
+        <li><strong>Follow staff instructions:</strong> Moderators and admins have the final say in all disputes and decisions.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>Fair Play &amp; Cheating</h2>
+      <ol start="4">
+        <li><strong>No cheating or exploiting:</strong> Use of hacks, mods, or bugs to gain unfair advantages is strictly prohibited.</li>
+        <li><strong>No griefing:</strong> Destroying or stealing other players' builds without permission is forbidden.</li>
+        <li><strong>No real-money trading:</strong> Buying, selling, or trading in-game items or ranks for real money outside official store is banned.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>Chat &amp; Communication</h2>
+      <ol start="7">
+        <li><strong>Keep chat appropriate:</strong> Use respectful language; no spamming, advertising, or excessive profanity.</li>
+        <li><strong>Stay on-topic in forums and chats:</strong> Use designated channels for off-topic discussions.</li>
+        <li><strong>Report bugs and issues:</strong> Help us improve by reporting problems to the staff promptly.</li>
+      </ol>
+    </section>
+  </main>
+
+  <footer>
+    <div>
+      <a href="#">Discord</a> | 
+      <a href="#">Twitter</a> | 
+      <a href="#">YouTube</a>
+    </div>
+    <div>© 2025 The Shattered Crown. All rights reserved.</div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const nav = document.getElementById('navMenu');
+      nav.classList.toggle('active');
+    }
+  </script>
+</body>
+</html>

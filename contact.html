@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact - The Shattered Crown</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet" />
+  <style>
+    /* Base Styles */
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #121821;
+      color: #ddd;
+      overflow-x: hidden;
+    }
+    a {
+      color: #d49a2a;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    /* Removed text-decoration underline on hover here */
+
+    /* NEW: Links inside main content */
+    main a {
+      color: #d49a2a;
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    main a:hover,
+    main a:focus {
+      color: #bb841d;
+      text-decoration: underline;
+    }
+
+    header {
+      background-color: #1f2937;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #d49a2a;
+      flex-wrap: wrap;
+      position: relative;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #d49a2a;
+      letter-spacing: 2px;
+      cursor: pointer;
+    }
+
+    nav {
+      display: flex;
+      gap: 1.8rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      transition: max-height 0.3s ease;
+    }
+
+    nav a {
+      font-weight: 600;
+      font-size: 1rem;
+      position: relative;
+      color: #d49a2a;
+      text-decoration: none;
+      padding-bottom: 6px; /* space for underline */
+    }
+
+    /* Animated underline with gradient and scaleX */
+    nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 4px;
+      height: 4px; /* thicker underline */
+      width: 100%;
+      background: linear-gradient(90deg, #f4c04d, #f4c04d);
+      border-radius: 2px;
+      transform: scaleX(0);
+      transform-origin: bottom right;
+      transition: transform 0.4s ease;
+      pointer-events: none;
+    }
+
+    nav a:hover::after,
+    nav a.active::after {
+      transform: scaleX(1);
+      transform-origin: bottom left;
+    }
+
+    nav a.active {
+      font-weight: 800; /* bold for active */
+      color: #f4c04d; /* same as underline start */
+    }
+
+    main {
+      max-width: 700px;
+      margin: 2.5rem auto 3rem; /* moved up slightly like other pages */
+      padding: 2rem;
+      background-color: #1b2430;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.4);
+      border: 1px solid #2f3640;
+      position: relative;
+      z-index: 0;
+      transition: filter 0.3s ease;
+    }
+
+    h1 {
+      font-family: 'Cinzel', serif;
+      color: #d49a2a;
+      text-align: center;
+      font-size: 3rem;
+      margin-bottom: 2rem;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 0.4rem;
+      display: block;
+      color: #f0e6d2;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #444;
+      border-radius: 6px;
+      background-color: #2c3e50;
+      color: #eee;
+      font-size: 1rem;
+      resize: vertical;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #d49a2a;
+      box-shadow: 0 0 5px #d49a2a77;
+    }
+
+    input:invalid, textarea:invalid {
+      border-color: #e74c3c;
+    }
+
+    input:invalid:focus, textarea:invalid:focus {
+      box-shadow: 0 0 5px #e74c3c99;
+    }
+
+    button {
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      font-weight: bold;
+      background-color: #d49a2a;
+      color: #121821;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      align-self: flex-start;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    button:hover:not(:disabled) {
+      background-color: #bb841d;
+    }
+
+    button:disabled {
+      background-color: #7a6313;
+      cursor: not-allowed;
+    }
+
+    footer {
+      background-color: #1f2937;
+      padding: 1.5rem 2rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #777;
+      border-top: 2px solid #d49a2a;
+      margin-top: 4rem;
+    }
+
+    footer a {
+      margin: 0 0.5rem;
+      color: #d49a2a;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    .char-counter {
+      text-align: right;
+      font-size: 0.85rem;
+      margin-top: 0.2rem;
+      font-family: monospace;
+      transition: color 0.3s ease;
+      color: #eee;
+    }
+
+    .char-counter.warning {
+      color: #d49a2a;
+    }
+
+    .char-counter.limit {
+      color: #e74c3c;
+      font-weight: bold;
+    }
+
+    #popup-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(18, 24, 33, 0.85);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    #popup {
+      background-color: #1b2430;
+      border: 2px solid #d49a2a;
+      border-radius: 12px;
+      padding: 2rem 2.5rem;
+      max-width: 400px;
+      width: 90%;
+      color: #f0e6d2;
+      font-family: 'Cinzel', serif;
+      text-align: center;
+      box-shadow: 0 0 25px #d49a2a88;
+      opacity: 0;
+      transform: scale(0.9);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      position: relative;
+    }
+
+    #popup.show {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    #popup button.close-btn {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      background: transparent;
+      border: none;
+      font-size: 1.6rem;
+      color: #d49a2a;
+      cursor: pointer;
+      font-weight: 900;
+      line-height: 1;
+      user-select: none;
+      transition: color 0.3s ease;
+    }
+
+    #popup button.close-btn:hover {
+      color: #bb841d;
+    }
+
+    body.popup-active {
+      overflow: hidden;
+    }
+
+    body.popup-active main,
+    body.popup-active header,
+    body.popup-active footer {
+      filter: blur(6px);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    button .spinner {
+      border: 2px solid transparent;
+      border-top: 2px solid #121821;
+      border-right: 2px solid #121821;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      animation: spin 0.6s linear infinite;
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 8px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    button.loading .spinner {
+      opacity: 1;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Hamburger Menu Button */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: space-around;
+      width: 28px;
+      height: 22px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      z-index: 1100;
+    }
+
+    .menu-toggle span {
+      width: 100%;
+      height: 3px;
+      background-color: #d49a2a;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    /* When menu is open - animate hamburger */
+    .menu-toggle.open span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    .menu-toggle.open span:nth-child(2) {
+      opacity: 0;
+    }
+    .menu-toggle.open span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 600px) {
+      nav {
+        flex-direction: column;
+        max-height: 0;
+        overflow: hidden;
+        width: 100%;
+        gap: 0;
+        transition: max-height 0.3s ease;
+      }
+      nav.open {
+        max-height: 500px; /* enough height to show all links */
+      }
+      nav a {
+        padding: 1rem 2rem;
+        border-top: 1px solid #d49a2a33;
+        width: 100%;
+        font-size: 1.2rem;
+      }
+
+      header {
+        padding: 1rem 1.5rem;
+      }
+
+      /* Show hamburger button */
+      .menu-toggle {
+        display: flex;
+      }
+    }
+
+    /* Other mobile tweaks */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2.4rem;
+      }
+      main {
+        margin: 2rem 1rem;
+        padding: 1.5rem;
+      }
+      #popup {
+        max-width: 90%;
+        padding: 1.5rem 1.8rem;
+      }
+      button {
+        width: 100%;
+        align-self: stretch;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">The Shattered Crown</div>
+
+    <!-- Hamburger menu button -->
+    <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="primary-navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav id="primary-navigation">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="serverinfo.html">Server Info</a>
+      <a href="forums.html">Forums</a>
+      <a href="store.html">Donate</a>
+      <a href="rules.html">Rules</a>
+      <a href="contact.html" class="active" aria-current="page">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Contact Us</h1>
+    <form
+      id="contact-form"
+      action="https://formspree.io/f/manjybkl"
+      method="POST"
+      novalidate
+    >
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" placeholder="Your name" required />
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="your.email@example.com" required />
+
+      <label for="message">Message</label>
+      <textarea
+        id="message"
+        name="message"
+        rows="6"
+        maxlength="500"
+        placeholder="Write your message here..."
+        required
+        aria-describedby="char-counter"
+      ></textarea>
+      <div id="char-counter" class="char-counter" aria-live="polite">0 / 500</div>
+
+      <button type="submit" id="submit-btn">
+        Send Message
+        <span class="spinner" aria-hidden="true"></span>
+      </button>
+    </form>
+  </main>
+
+  <footer>
+    &copy; 2025 The Shattered Crown. All rights reserved.
+  </footer>
+
+  <div id="popup-overlay">
+    <div id="popup">
+      <button class="close-btn" aria-label="Close popup">&times;</button>
+      <h2>Thank you!</h2>
+      <p>Your message has been sent successfully. We'll get back to you soon.</p>
+    </div>
+  </div>
+
+  <script>
+    const messageBox = document.getElementById('message');
+    const counter = document.getElementById('char-counter');
+    const form = document.getElementById('contact-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const popupOverlay = document.getElementById('popup-overlay');
+    const popup = document.getElementById('popup');
+    const closeBtn = popup.querySelector('.close-btn');
+
+    messageBox.addEventListener('input', () => {
+      const len = messageBox.value.length;
+      counter.textContent = `${len} / 500`;
+      counter.classList.remove('warning', 'limit');
+      if (len > 400 && len < 500) counter.classList.add('warning');
+      if (len >= 500) {
+        counter.classList.add('limit');
+        counter.textContent = '500 / 500 – Maximum reached';
+      }
+    });
+
+    function showPopup() {
+      popupOverlay.style.display = 'flex';
+      document.body.classList.add('popup-active');
+      setTimeout(() => popup.classList.add('show'), 10);
+    }
+
+    function hidePopup() {
+      popup.classList.remove('show');
+      setTimeout(() => {
+        popupOverlay.style.display = 'none';
+        document.body.classList.remove('popup-active');
+      }, 300);
+    }
+
+    closeBtn.addEventListener('click', hidePopup);
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.classList.add('loading');
+      const formData = new FormData(form);
+
+      fetch(form.action, {
+        method: form.method,
+        headers: { 'Accept': 'application/json' },
+        body: formData,
+      })
+      .then(response => {
+        if (response.ok) {
+          form.reset();
+          counter.textContent = '0 / 500';
+          showPopup();
+        } else {
+          return response.json().then(data => {
+            throw new Error(data.error || 'Oops! There was a problem submitting your form');
+          });
+        }
+      })
+      .catch(err => alert(err.message))
+      .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('loading');
+      });
+    });
+
+    // Hamburger toggle logic
+    const menuToggle = document.querySelector('.menu-toggle');
+    const nav = document.getElementById('primary-navigation');
+
+    menuToggle.addEventListener('click', () => {
+      const expanded = menuToggle.getAttribute('aria-expanded') === 'true' || false;
+      menuToggle.setAttribute('aria-expanded', !expanded);
+      menuToggle.classList.toggle('open');
+      nav.classList.toggle('open');
+    });
+
+    // Close menu when clicking outside on mobile
+    document.addEventListener('click', (e) => {
+      if (!nav.contains(e.target) && !menuToggle.contains(e.target) && nav.classList.contains('open')) {
+        nav.classList.remove('open');
+        menuToggle.classList.remove('open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  </script>
+</body>
+</html>
+Donate

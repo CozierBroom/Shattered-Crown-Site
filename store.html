@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Shattered Crown - Minecraft Modded Server</title>
+  <meta name="description" content="The Shattered Crown - A modded Minecraft server with dark fantasy themes and custom quests." />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <style>
+    /* Reset & basics */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #121821;
+      color: #ddd;
+    }
+    a {
+      color: #d49a2a;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    a:hover {
+      text-decoration: none;
+    }
+    header {
+      background-color: #1f2937;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #d49a2a;
+      position: relative;
+    }
+    .logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #d49a2a;
+      letter-spacing: 2px;
+      cursor: pointer;
+    }
+    nav.nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    nav.nav-menu a {
+      position: relative;
+      padding-bottom: 4px;
+      color: #d49a2a;
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.3s ease;
+      font-size: 1rem;
+      margin-left: 1.5rem;
+    }
+    nav.nav-menu a:first-child {
+      margin-left: 0;
+    }
+    nav.nav-menu a:hover,
+    nav.nav-menu a:focus {
+      color: #f4c04d;
+    }
+    nav.nav-menu a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 3px;
+      width: 100%;
+      background: linear-gradient(90deg, #d49a2a, #f4c04d);
+      border-radius: 2px;
+      transform: scaleX(0);
+      transform-origin: bottom right;
+      transition: transform 0.4s ease;
+      pointer-events: none;
+    }
+    nav.nav-menu a:hover::after,
+    nav.nav-menu a:focus::after {
+      transform: scaleX(1);
+      transform-origin: bottom left;
+    }
+    nav.nav-menu a.current-page {
+      color: #f4c04d;
+      font-weight: 700;
+    }
+    nav.nav-menu a.current-page::after {
+      height: 5px;
+      transform: scaleX(1);
+      transform-origin: bottom left;
+      transition: none;
+    }
+
+    /* Hamburger toggle button */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      width: 30px;
+      height: 22px;
+      cursor: pointer;
+      background-color: #1f2937;  /* matches header bg */
+      border: none;
+      padding: 0;
+      border-radius: 4px; /* optional for nicer corners */
+    }
+    .nav-toggle:focus {
+      outline: 2px solid #d49a2a;
+      outline-offset: 2px;
+    }
+    .nav-toggle span {
+      height: 3px;
+      width: 100%;
+      background-color: #d49a2a;
+      border-radius: 2px;
+      margin-bottom: 5px;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .nav-toggle span:last-child {
+      margin-bottom: 0;
+    }
+    /* Animate toggle to X when active */
+    .nav-toggle.active span:nth-child(1) {
+      transform: translateY(8.5px) rotate(45deg);
+    }
+    .nav-toggle.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .nav-toggle.active span:nth-child(3) {
+      transform: translateY(-8.5px) rotate(-45deg);
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 5rem 2rem 6rem;
+      background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80') no-repeat center/cover;
+      color: #f0e6d2;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
+    }
+    .hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 0.3rem;
+      letter-spacing: 4px;
+      font-family: 'Cinzel', serif;
+    }
+    .hero p {
+      font-size: 1.3rem;
+      margin-bottom: 1.5rem;
+      font-style: italic;
+    }
+    .server-ip {
+      margin-top: 1rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      color: #f0e6d2;
+    }
+
+    /* Status bar */
+    .status-bar {
+      background-color: #1f2937;
+      color: #d49a2a;
+      display: flex;
+      justify-content: center;
+      padding: 0.8rem 1rem;
+      font-weight: 700;
+      font-family: monospace;
+      gap: 2.5rem;
+      border-top: 2px solid #d49a2a;
+      border-bottom: 2px solid #d49a2a;
+      flex-wrap: wrap;
+      text-align: center;
+    }
+
+    /* About section */
+    .about {
+      max-width: 900px;
+      margin: 4rem auto 3rem;
+      padding: 0 1rem;
+      font-size: 1.1rem;
+      line-height: 1.5;
+      color: #ccc;
+      text-align: center;
+    }
+
+    /* News section */
+    .news-section {
+      max-width: 900px;
+      margin: 0 auto 4rem;
+      padding: 0 1rem;
+      color: #ccc;
+    }
+    .news-section h2 {
+      color: #d49a2a;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      font-size: 2rem;
+      text-align: center;
+    }
+    .news-item {
+      background-color: #1f2937;
+      margin-bottom: 1rem;
+      padding: 1rem 1.5rem;
+      border-radius: 5px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.7);
+    }
+    .news-item h3 {
+      margin: 0 0 0.3rem 0;
+      color: #d49a2a;
+    }
+    .news-item small {
+      font-style: italic;
+      color: #a8862f;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #1f2937;
+      padding: 1.5rem 2rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #777;
+      border-top: 2px solid #d49a2a;
+    }
+    footer a {
+      margin: 0 0.5rem;
+      color: #d49a2a;
+      font-weight: 600;
+    }
+
+    /* Responsive Mobile Menu */
+    @media (max-width: 768px) {
+      .nav-toggle {
+        display: flex;
+      }
+      nav.nav-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: #1f2937;
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem 2rem;
+        border-radius: 0 0 6px 6px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.7);
+        display: none; /* hidden by default */
+        z-index: 1000;
+      }
+      nav.nav-menu[aria-expanded="true"] {
+        display: flex;
+      }
+      nav.nav-menu a {
+        margin-left: 0;
+        font-size: 1.1rem;
+        width: 100%;
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo" tabindex="0">The Shattered Crown</div>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="primary-navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav id="primary-navigation" class="nav-menu" aria-expanded="false">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="serverinfo.html">Server Info</a>
+      <a href="forums.html">Forums</a>
+      <a href="store.html" class="current-page">Donate</a>
+      <a href="rules.html">Rules</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>The Shattered Crown</h1>
+    <p>“Forge your destiny in a shattered world of magic and discover the mysteries the world has waiting for you.”</p>
+    <div class="server-ip">Server IP: <strong>aeon.aushost.gg:27000</strong></div>
+  </section>
+
+  <div class="status-bar">
+    <div>
+      Server Status: <span id="server-status" style="font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
+        <span id="status-dot" style="width: 12px; height: 12px; border-radius: 50%; display: inline-block; background-color: gray;"></span>
+        <span id="status-text">Loading...</span>
+      </span>
+    </div>
+    <div>Players Online: <span id="players-online">Loading...</span></div>
+    <div>Uptime: 99.9%</div>
+    <div>Modpack v1.0 (1.20.1)</div>
+  </div>
+
+  <section class="about">
+    <p>The Shattered Crown is a unique modded Minecraft server combining dark fantasy themes with advanced technology mods. Explore custom quests, massive builds, and an active community ready to conquer new challenges.</p>
+  </section>
+
+  <section class="news-section">
+    <h2>Latest News</h2>
+    <article class="news-item">
+      <h3>New Modpack Update Released!</h3>
+      <small>June 1, 2025</small>
+      <p>We just launched version 5.3 of our modpack with new quests and bug fixes.</p>
+    </article>
+    <article class="news-item">
+      <h3>Server Maintenance Scheduled</h3>
+      <small>May 20, 2025</small>
+      <p>Our server will be down for maintenance from 2 AM to 6 AM UTC.</p>
+    </article>
+    <article class="news-item">
+      <h3>Community Build Contest Winners</h3>
+      <small>May 15, 2025</small>
+      <p>Congrats to our top builders! Check out their amazing creations in the forums.</p>
+    </article>
+  </section>
+
+  <footer>
+    <div>
+      <a href="#">Discord</a> | 
+      <a href="#">Twitter</a> | 
+      <a href="#">YouTube</a>
+    </div>
+    <div>© 2025 The Shattered Crown. All rights reserved.</div>
+  </footer>
+
+  <script>
+    // Toggle nav menu on small screens
+    const navToggle = document.querySelector('.nav-toggle');
+    const navMenu = document.getElementById('primary-navigation');
+
+    navToggle.addEventListener('click', () => {
+      const expanded = navToggle.getAttribute('aria-expanded') === 'true' || false;
+      navToggle.setAttribute('aria-expanded', !expanded);
+      navMenu.setAttribute('aria-expanded', !expanded);
+      navToggle.classList.toggle('active');
+    });
+
+    // Dummy server status update (replace with real server API calls)
+    function updateServerStatus() {
+      const statusDot = document.getElementById('status-dot');
+      const statusText = document.getElementById('status-text');
+      const playersOnline = document.getElementById('players-online');
+
+      // Simulate server online
+      statusDot.style.backgroundColor = '#4CAF50'; // green
+      statusText.textContent = 'Online';
+      playersOnline.textContent = '12 / 100';
+    }
+
+    updateServerStatus();
+  </script>
+</body>
+</html>
