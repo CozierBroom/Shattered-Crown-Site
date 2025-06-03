@@ -3,29 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>The Shattered Crown - Minecraft Modded Server</title>
-  <meta name="description" content="The Shattered Crown - A modded Minecraft server with dark fantasy themes and custom quests." />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet" />
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <title>Donate - The Shattered Crown</title>
   <style>
-    /* Reset & basics */
-    * {
-      box-sizing: border-box;
-    }
     body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #121821;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
       color: #ddd;
     }
-    a {
-      color: #d49a2a;
-      text-decoration: none;
-      font-weight: 600;
-    }
-    a:hover {
-      text-decoration: none;
-    }
+
+    /* Navigation Styles */
     header {
       background-color: #1f2937;
       padding: 1rem 2rem;
@@ -35,18 +23,22 @@
       border-bottom: 2px solid #d49a2a;
       position: relative;
     }
+
     .logo {
       font-weight: 700;
       font-size: 1.5rem;
       color: #d49a2a;
       letter-spacing: 2px;
       cursor: pointer;
+      user-select: none;
     }
+
     nav.nav-menu {
       display: flex;
       align-items: center;
-      gap: 1.5rem;
+      gap: 1rem;
     }
+
     nav.nav-menu a {
       position: relative;
       padding-bottom: 4px;
@@ -55,43 +47,54 @@
       text-decoration: none;
       transition: color 0.3s ease;
       font-size: 1rem;
-      margin-left: 1.5rem;
+      margin-left: 0; /* reset margin-left for all links */
+      user-select: none;
     }
-    nav.nav-menu a:first-child {
-      margin-left: 0;
+
+    /* Add left margin only to links after the first */
+    nav.nav-menu a + a {
+      margin-left: 0rem;
     }
+
     nav.nav-menu a:hover,
     nav.nav-menu a:focus {
       color: #f4c04d;
     }
+
+    /* Underline for links */
     nav.nav-menu a::after {
       content: "";
       position: absolute;
       left: 0;
       bottom: 0;
-      height: 3px;
+      height: 3px; /* thinner underline for hover/focus */
       width: 100%;
       background: linear-gradient(90deg, #d49a2a, #f4c04d);
-      border-radius: 2px;
+      border-radius: 3px;
       transform: scaleX(0);
       transform-origin: bottom right;
-      transition: transform 0.4s ease;
+      transition: transform 0.4s ease, height 0.3s ease;
       pointer-events: none;
     }
+
     nav.nav-menu a:hover::after,
     nav.nav-menu a:focus::after {
       transform: scaleX(1);
       transform-origin: bottom left;
+      height: 2px; /* keep thin underline on hover/focus */
     }
-    nav.nav-menu a.current-page {
-      color: #f4c04d;
-      font-weight: 700;
-    }
-    nav.nav-menu a.current-page::after {
-      height: 5px;
+
+    /* Active link underline thicker */
+    nav.nav-menu a.active::after {
       transform: scaleX(1);
       transform-origin: bottom left;
-      transition: none;
+      height: 5px; /* thicker underline for active link */
+    }
+
+    /* Active link text bold and highlighted */
+    nav.nav-menu a.active {
+      color: #f4c04d;
+      font-weight: 700;
     }
 
     /* Hamburger toggle button */
@@ -102,12 +105,17 @@
       width: 30px;
       height: 22px;
       cursor: pointer;
-      background-color: #1f2937;  /* matches header bg */
+      background-color: #1f2937;
       border: none;
       padding: 0;
-      border-radius: 4px; /* optional for nicer corners */
+      border-radius: 4px;
+      transition: outline 0.3s ease, outline-offset 0.3s ease;
     }
     .nav-toggle:focus {
+      outline: 2px solid #d49a2a;
+      outline-offset: 2px;
+    }
+    .nav-toggle.active {
       outline: 2px solid #d49a2a;
       outline-offset: 2px;
     }
@@ -122,7 +130,6 @@
     .nav-toggle span:last-child {
       margin-bottom: 0;
     }
-    /* Animate toggle to X when active */
     .nav-toggle.active span:nth-child(1) {
       transform: translateY(8.5px) rotate(45deg);
     }
@@ -133,111 +140,8 @@
       transform: translateY(-8.5px) rotate(-45deg);
     }
 
-    /* Hero Section */
-    .hero {
-      text-align: center;
-      padding: 5rem 2rem 6rem;
-      background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80') no-repeat center/cover;
-      color: #f0e6d2;
-      text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
-    }
-    .hero h1 {
-      font-size: 3.5rem;
-      margin-bottom: 0.3rem;
-      letter-spacing: 4px;
-      font-family: 'Cinzel', serif;
-    }
-    .hero p {
-      font-size: 1.3rem;
-      margin-bottom: 1.5rem;
-      font-style: italic;
-    }
-    .server-ip {
-      margin-top: 1rem;
-      font-size: 1.1rem;
-      font-weight: 600;
-      letter-spacing: 1.5px;
-      color: #f0e6d2;
-    }
-
-    /* Status bar */
-    .status-bar {
-      background-color: #1f2937;
-      color: #d49a2a;
-      display: flex;
-      justify-content: center;
-      padding: 0.8rem 1rem;
-      font-weight: 700;
-      font-family: monospace;
-      gap: 2.5rem;
-      border-top: 2px solid #d49a2a;
-      border-bottom: 2px solid #d49a2a;
-      flex-wrap: wrap;
-      text-align: center;
-    }
-
-    /* About section */
-    .about {
-      max-width: 900px;
-      margin: 4rem auto 3rem;
-      padding: 0 1rem;
-      font-size: 1.1rem;
-      line-height: 1.5;
-      color: #ccc;
-      text-align: center;
-    }
-
-    /* News section */
-    .news-section {
-      max-width: 900px;
-      margin: 0 auto 4rem;
-      padding: 0 1rem;
-      color: #ccc;
-    }
-    .news-section h2 {
-      color: #d49a2a;
-      font-family: 'Cinzel', serif;
-      font-weight: 700;
-      margin-bottom: 1rem;
-      font-size: 2rem;
-      text-align: center;
-    }
-    .news-item {
-      background-color: #1f2937;
-      margin-bottom: 1rem;
-      padding: 1rem 1.5rem;
-      border-radius: 5px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.7);
-    }
-    .news-item h3 {
-      margin: 0 0 0.3rem 0;
-      color: #d49a2a;
-    }
-    .news-item small {
-      font-style: italic;
-      color: #a8862f;
-    }
-
-    /* Footer */
-    footer {
-      background-color: #1f2937;
-      padding: 1.5rem 2rem;
-      text-align: center;
-      font-size: 0.9rem;
-      color: #777;
-      border-top: 2px solid #d49a2a;
-    }
-    footer a {
-      margin: 0 0.5rem;
-      color: #d49a2a;
-      font-weight: 600;
-    }
-
-    /* Responsive Mobile Menu */
+    /* Responsive menu for small screens */
     @media (max-width: 768px) {
-      .nav-toggle {
-        display: flex;
-      }
       nav.nav-menu {
         position: absolute;
         top: 100%;
@@ -249,7 +153,7 @@
         padding: 1rem 2rem;
         border-radius: 0 0 6px 6px;
         box-shadow: 0 4px 8px rgba(0,0,0,0.7);
-        display: none; /* hidden by default */
+        display: none;
         z-index: 1000;
       }
       nav.nav-menu[aria-expanded="true"] {
@@ -261,6 +165,167 @@
         width: 100%;
         display: block;
       }
+      .nav-toggle {
+        display: flex;
+      }
+    }
+
+    /* Donation box styling without glow */
+    .donation-box {
+      background-color: #1f2937;
+      border-radius: 10px;
+      padding: 2rem 3rem;
+      max-width: 500px;
+      margin: 2rem auto 0;
+      text-align: center;
+      color: #ddd;
+      box-shadow: none;
+    }
+
+    .donation-box h1,
+    .donation-box p,
+    .donate-button {
+      margin: 0 auto 1.2rem auto;
+    }
+
+    /* Correct font for Support The Shattered Crown */
+    .support-title {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: #d49a2a;
+      text-align: center;
+      margin: 2rem 0 0.5rem;
+      user-select: none;
+    }
+
+    .donate-button {
+      background-color: #d49a2a;
+      color: #121821;
+      font-weight: 700;
+      padding: 0.8rem 2.5rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 1.2rem;
+      user-select: none;
+      border: none;
+      display: inline-block;
+      transition: box-shadow 0.3s ease, background-color 0.3s ease;
+      cursor: pointer;
+    }
+
+    .donate-button:hover,
+    .donate-button:focus {
+      background-color: #f4c04d;
+      box-shadow: 0 0 8px #f4c04d;
+      outline: none;
+    }
+
+    .last-donor-box {
+      background-color: #1f2937;
+      border-radius: 10px;
+      max-width: 500px;
+      margin: 1.5rem auto 3rem;
+      padding: 1rem 2rem;
+      text-align: center;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #f4c04d;
+      user-select: none;
+    }
+
+    /* FAQ Section without glow */
+    .faq-section {
+      max-width: 600px;
+      margin: 0 auto 4rem;
+      background-color: #1f2937;
+      border-radius: 10px;
+      padding: 2rem 2.5rem;
+      color: #ddd;
+      box-shadow: none;
+    }
+
+    .faq-section h2 {
+      color: #d49a2a;
+      font-family: 'Cinzel', serif;
+      font-size: 1.7rem;
+      margin-top: 0;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .faq-item {
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid #3f4a5a;
+      padding-bottom: 1rem;
+    }
+
+    .faq-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .faq-question {
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 0.4rem;
+      color: #f4c04d;
+      cursor: pointer;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      outline: none;
+    }
+
+    .faq-question:focus {
+      outline: 2px solid #d49a2a;
+      outline-offset: 2px;
+    }
+
+    .faq-answer {
+      font-size: 1rem;
+      line-height: 1.4;
+      color: #ddd;
+      display: none;
+      margin-left: 1rem;
+      transition: max-height 0.3s ease;
+    }
+
+    /* Arrow icons */
+    .faq-question .arrow {
+      font-size: 1.3rem;
+      transition: transform 0.3s ease;
+      user-select: none;
+    }
+    .faq-question[aria-expanded="true"] .arrow {
+      transform: rotate(90deg);
+    }
+
+    /* Main content padding and spacing fix */
+    main {
+      padding: 0 1rem 4rem;
+      max-width: 900px;
+      margin: 2rem auto 4rem; /* Added 2rem top margin for spacing */
+      font-size: 1.2rem;
+      line-height: 1.5;
+    }
+
+    main > *:first-child {
+      margin-top: 0; /* Remove top margin of first child inside main */
+    }
+
+    /* Footer */
+    footer {
+      background-color: #1f2937;
+      text-align: center;
+      padding: 1rem 0;
+      color: #d49a2a;
+      font-size: 0.9rem;
+      font-weight: 600;
+      user-select: none;
+      border-top: 2px solid #d49a2a;
     }
   </style>
 </head>
@@ -268,97 +333,104 @@
 
   <header>
     <div class="logo" tabindex="0">The Shattered Crown</div>
+
     <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="primary-navigation">
       <span></span>
       <span></span>
       <span></span>
     </button>
+
     <nav id="primary-navigation" class="nav-menu" aria-expanded="false">
       <a href="index.html">Home</a>
       <a href="about.html">About</a>
       <a href="serverinfo.html">Server Info</a>
       <a href="forums.html">Forums</a>
-      <a href="store.html" class="current-page">Donate</a>
+      <a href="store.html" class="active">Donate</a>
       <a href="rules.html">Rules</a>
       <a href="contact.html">Contact</a>
     </nav>
   </header>
 
-  <section class="hero">
-    <h1>The Shattered Crown</h1>
-    <p>“Forge your destiny in a shattered world of magic and discover the mysteries the world has waiting for you.”</p>
-    <div class="server-ip">Server IP: <strong>aeon.aushost.gg:27000</strong></div>
-  </section>
+  <main>
+    <h1 class="support-title">Support The Shattered Crown</h1>
 
-  <div class="status-bar">
-    <div>
-      Server Status: <span id="server-status" style="font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
-        <span id="status-dot" style="width: 12px; height: 12px; border-radius: 50%; display: inline-block; background-color: gray;"></span>
-        <span id="status-text">Loading...</span>
-      </span>
+    <section class="donation-box" role="region" aria-labelledby="donate-header">
+      <a href="https://ko-fi.com/shatteredcrown" target="_blank" rel="noopener noreferrer" class="donate-button" role="button" tabindex="0">❤️ Donate Now</a>
+    </section>
+
+    <div class="last-donor-box" aria-live="polite">
+      Last Donor: AlexTheGreat
     </div>
-    <div>Players Online: <span id="players-online">Loading...</span></div>
-    <div>Uptime: 99.9%</div>
-    <div>Modpack v1.0 (1.20.1)</div>
-  </div>
 
-  <section class="about">
-    <p>The Shattered Crown is a unique modded Minecraft server combining dark fantasy themes with advanced technology mods. Explore custom quests, massive builds, and an active community ready to conquer new challenges.</p>
-  </section>
+    <section class="faq-section" aria-labelledby="faq-header">
+      <h2 id="faq-header">Frequently Asked Questions</h2>
 
-  <section class="news-section">
-    <h2>Latest News</h2>
-    <article class="news-item">
-      <h3>New Modpack Update Released!</h3>
-      <small>June 1, 2025</small>
-      <p>We just launched version 5.3 of our modpack with new quests and bug fixes.</p>
-    </article>
-    <article class="news-item">
-      <h3>Server Maintenance Scheduled</h3>
-      <small>May 20, 2025</small>
-      <p>Our server will be down for maintenance from 2 AM to 6 AM UTC.</p>
-    </article>
-    <article class="news-item">
-      <h3>Community Build Contest Winners</h3>
-      <small>May 15, 2025</small>
-      <p>Congrats to our top builders! Check out their amazing creations in the forums.</p>
-    </article>
-  </section>
+      <div class="faq-item">
+        <div class="faq-question" tabindex="0" role="button" aria-expanded="false" aria-controls="faq1-answer">
+          <span>Where do my donations go?</span>
+          <span class="arrow">&#9654;</span>
+        </div>
+        <div id="faq1-answer" class="faq-answer" role="region" aria-hidden="true">
+          All donations help support server upkeep, development, and community events to improve your experience.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" tabindex="0" role="button" aria-expanded="false" aria-controls="faq2-answer">
+          <span>Is donating mandatory to play?</span>
+          <span class="arrow">&#9654;</span>
+        </div>
+        <div id="faq2-answer" class="faq-answer" role="region" aria-hidden="true">
+          No, donations are completely optional and don’t affect gameplay fairness.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" tabindex="0" role="button" aria-expanded="false" aria-controls="faq3-answer">
+          <span>Do I get any perks for donating?</span>
+          <span class="arrow">&#9654;</span>
+        </div>
+        <div id="faq3-answer" class="faq-answer" role="region" aria-hidden="true">
+          Donors get exclusive cosmetic items and early access to new content as a thank you.
+        </div>
+      </div>
+
+    </section>
+  </main>
 
   <footer>
-    <div>
-      <a href="#">Discord</a> | 
-      <a href="#">Twitter</a> | 
-      <a href="#">YouTube</a>
-    </div>
-    <div>© 2025 The Shattered Crown. All rights reserved.</div>
+    &copy; 2025 The Shattered Crown. All rights reserved.
   </footer>
 
   <script>
-    // Toggle nav menu on small screens
+    // Navigation toggle script
     const navToggle = document.querySelector('.nav-toggle');
     const navMenu = document.getElementById('primary-navigation');
 
     navToggle.addEventListener('click', () => {
-      const expanded = navToggle.getAttribute('aria-expanded') === 'true' || false;
+      const expanded = navToggle.getAttribute('aria-expanded') === 'true';
       navToggle.setAttribute('aria-expanded', !expanded);
       navMenu.setAttribute('aria-expanded', !expanded);
       navToggle.classList.toggle('active');
     });
 
-    // Dummy server status update (replace with real server API calls)
-    function updateServerStatus() {
-      const statusDot = document.getElementById('status-dot');
-      const statusText = document.getElementById('status-text');
-      const playersOnline = document.getElementById('players-online');
-
-      // Simulate server online
-      statusDot.style.backgroundColor = '#4CAF50'; // green
-      statusText.textContent = 'Online';
-      playersOnline.textContent = '12 / 100';
-    }
-
-    updateServerStatus();
+    // FAQ toggle script
+    document.querySelectorAll('.faq-question').forEach(question => {
+      question.addEventListener('click', () => {
+        const expanded = question.getAttribute('aria-expanded') === 'true';
+        question.setAttribute('aria-expanded', !expanded);
+        const answer = document.getElementById(question.getAttribute('aria-controls'));
+        answer.style.display = expanded ? 'none' : 'block';
+        answer.setAttribute('aria-hidden', expanded);
+      });
+      question.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          question.click();
+        }
+      });
+    });
   </script>
+
 </body>
 </html>
